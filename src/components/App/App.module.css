@@ -1,0 +1,10 @@
+:root {
+    --wrapper-padding-lr: 5vw;
+    --content-width: 1440px;
+}
+
+.container {
+    max-width: calc(var(--content-width) - var(--wrapper-padding-lr) * 2);
+    padding: 0 var(--wrapper-padding-lr);
+    margin: 0 auto;
+};
