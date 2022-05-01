@@ -1,5 +1,10 @@
-import styles from './App.module.css';
+import { ContentWrapper } from 'components/ContentWrapper';
+import { Matrix } from 'components/Matrix';
 
-export const App:React.FC = () => (
-    <div className={ styles.container }>Test app</div>
+export const App = () => (
+    <main aria-label="Homepage">
+        <ContentWrapper>
+            <Matrix />
+        </ContentWrapper>
+    </main>
 );

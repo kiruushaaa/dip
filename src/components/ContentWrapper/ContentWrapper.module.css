@@ -1,0 +1,14 @@
+:root {
+    --wrapper-padding-inline: 5vw;
+    --content-width: 1440px;
+}
+
+.container {
+    max-width: calc(var(--content-width) - var(--wrapper-padding-inline) * 2);
+    padding: 0 var(--wrapper-padding-inline);
+    margin: 0 auto;
+};
+
+.isCentered {
+    margin-block-start: 1rem;
+}
