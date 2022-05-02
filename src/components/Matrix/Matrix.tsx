@@ -1,14 +1,11 @@
-import { useState } from 'react';
-
-export const DEFAULT_DIM = 5;
+import { GraphDataInput } from 'components/GraphDataInput';
+import { GraphComponent } from 'components/GraphComponent';
 
 export const Matrix = () => {
-    const [dim, setDim] = useState<number>(DEFAULT_DIM);
-
     return (
         <section aria-label="Matrix">
-            <DimensionInput callback={ setDim } />
-            <MatrixInput dim={ dim } />
+            <GraphDataInput />
+            <GraphComponent />
         </section>
     );
 };

@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import style from './ContentWrapper.module.css';
 
-export interface Wrapper {
+export interface IWrapper {
     isCentered?: Boolean
     children: ReactNode
 }
@@ -11,7 +11,7 @@ export interface Wrapper {
 export const ContentWrapper = ({
     isCentered = false,
     children
-}: Wrapper) => (
+}: IWrapper) => (
     <div className={ cn(style.container, { [style.isCentered]: isCentered }) }>
         { children }
     </div>
