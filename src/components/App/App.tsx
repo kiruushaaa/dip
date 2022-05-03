@@ -1,10 +1,10 @@
 import { ContentWrapper } from 'components/ContentWrapper';
-import { Matrix } from 'components/Matrix';
+import { Graph } from 'components/Graph';
 
 export const App = () => (
-    <main aria-label="Homepage">
+    <main aria-label="Graph">
         <ContentWrapper>
-            <Matrix />
+            <Graph />
         </ContentWrapper>
     </main>
 );
