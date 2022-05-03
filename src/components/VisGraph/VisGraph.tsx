@@ -4,24 +4,30 @@ import { VisGraph as VisGraphType } from 'types/VisGraph';
 
 interface IVisGraph {
     graph: VisGraphType
+    setVertex: Function
+    setNetwork: Function
 }
 
-export const VisGraph = ({ graph }: IVisGraph) => {
+export const VisGraph = ({ graph, setVertex, setNetwork }: IVisGraph) => {
     const options = {
-        layout: {
-            hierarchical: false
+        manipulation: {
+            editNode: console.log
+        },
+        physics: {
+            enabled: false,
         },
         edges: {
-            color: "#000000"
+            color: '#999'
         },
-        height: "400px"
+        height: '520px'
     };
 
     const events = {
-        selectNode: function(event: any) {
-            console.log(event);
-        },
-        selectEdge: console.log
+        selectNode: ({ nodes }: any): void => {
+            const [vertex] = nodes;
+            
+            setVertex(vertex);
+        }
     };
 
     return (
@@ -29,6 +35,9 @@ export const VisGraph = ({ graph }: IVisGraph) => {
             graph={ graph }
             options={ options }
             events={ events }
+            getNetwork={ (network: any): void=> {
+                setNetwork(network);
+            } }
         />
     );
 }

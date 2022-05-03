@@ -46,11 +46,13 @@ export const dijkstra = (graph, startVertex) => {
     }
 
     let activeVertex = findNearestVertex(distances, visited);
+    const journey = [];
 
     while(activeVertex) {
         handleVertex(activeVertex);
+        journey.push({ activeVertex: Number(activeVertex), distances: { ...distances } });
         activeVertex = findNearestVertex(distances, visited);
     }
 
-    return { distances, previous };
+    return { distances, previous, journey };
 };
