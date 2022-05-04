@@ -26,6 +26,7 @@ const prepareData = (vertices, startVertex) => ({
 
 export const dijkstra = (graph, startVertex) => {
     const { distances, previous, visited } = prepareData(Object.keys(graph), startVertex);
+    const stepByStep = [{ activeVertex: 0, distances: { ...distances } }];
 
     function handleVertex(vertex) {
         const activeVertexDistance = distances[vertex];
@@ -46,13 +47,12 @@ export const dijkstra = (graph, startVertex) => {
     }
 
     let activeVertex = findNearestVertex(distances, visited);
-    const journey = [];
 
     while(activeVertex) {
         handleVertex(activeVertex);
-        journey.push({ activeVertex: Number(activeVertex), distances: { ...distances } });
+        stepByStep.push({ activeVertex: Number(activeVertex), distances: { ...distances } });
         activeVertex = findNearestVertex(distances, visited);
     }
 
-    return { distances, previous, journey };
+    return { distances, previous, stepByStep };
 };

@@ -10,14 +10,16 @@ interface IVisGraph {
 
 export const VisGraph = ({ graph, setVertex, setNetwork }: IVisGraph) => {
     const options = {
-        manipulation: {
-            editNode: console.log
-        },
         physics: {
             enabled: false,
         },
         edges: {
-            color: '#999'
+            color: '#999',
+            smooth: {
+                type: 'vertical',
+                forceDirection: 'none',
+                roundness: 0,
+            }
         },
         height: '520px'
     };
