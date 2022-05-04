@@ -2,8 +2,7 @@ import { Graph } from 'types/Graph';
 
 export const MIN_NODES_AMOUNT = 3;
 
-export const INITIAL_GRAPH: Graph = {
-    graph: [
+export const INITIAL_GRAPH: Graph = [
         { id: 1, edges: [{ to: 2, weight: 2 }, { to: 3, weight: 1 }] },
         { id: 2, edges: [{ to: 6, weight: 7 }] },
         { id: 3, edges: [{ to: 4, weight: 5 }, { to: 5, weight: 2 }] },
@@ -11,5 +10,4 @@ export const INITIAL_GRAPH: Graph = {
         { id: 5, edges: [{ to: 6, weight: 1 }] },
         { id: 6, edges: [{ to: 7, weight: 1 }] },
         { id: 7, edges: [] }
-    ]
-}
+];

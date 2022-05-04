@@ -4,17 +4,15 @@ import { GraphDataInput } from 'components/GraphDataInput';
 import { VisGraph } from 'components/VisGraph';
 import { Graph as GraphType} from 'types/Graph';
 import { INITIAL_GRAPH } from 'helpers/global';
-import { parseValue } from 'utils/global';
+import {
+    VIS_ACTIVE_NODE_COLOR,
+    VIS_VISITED_NODE_COLOR,
+    VIS_EDGE_PATH_CONFIG
+} from 'helpers/vis';
+import { parseValue, timer } from 'utils/global';
 import { prepareVisData } from 'utils/graph/vis';
 import { prepareDijsktraData, restorePath } from 'utils/graph/dijkstra';
 import { dijkstra } from 'algorithms/dijkstra';
-
-export const timer = (time: number) => new Promise<void>((resolve) => {
-    const timeout = setTimeout(() => {
-        resolve();
-        clearTimeout(timeout);
-    }, time);
-});
 
 export const Graph = () => {
     const [graph, setGraph] = useState<GraphType>(INITIAL_GRAPH);
@@ -37,27 +35,22 @@ export const Graph = () => {
 
         for (const [stepIndex, { activeVertex, distances }] of journey.entries()) {
             networkBody.nodes[activeVertex].setOptions({
-                color: {
-                    background: '#ca7575',
-                    border: '#887171'
-                }
+                color: VIS_ACTIVE_NODE_COLOR
             });
             network.redraw();
 
             await timer(2000);
 
-            const { edges = [] } = graph.graph.find(({ id }) => id === activeVertex) ?? {};
+            const { edges = [] } = graph.find(({ id }) => id === activeVertex) ?? {};
 
             for (const { to, weight } of edges) {
                 const currentWeight = stepByStep[stepIndex].distances[to];
                 const potentialWeight = distances[activeVertex] + weight;
 
                 const [edge] = networkBody.data.edges.add({
+                    ...VIS_EDGE_PATH_CONFIG,
                     from: activeVertex,
                     to,
-                    smooth: { roundness: 1 },
-                    color: '#758ea3',
-                    width: 3,
                     label: `${distances[activeVertex]} + ${weight} = ${potentialWeight} < ${parseValue(currentWeight)} ?`
                 });
                 network.redraw();
@@ -75,7 +68,7 @@ export const Graph = () => {
                 network.redraw();
             }
 
-            networkBody.nodes[activeVertex].setOptions({ color: { background: '#56cada', border: '#8b8b8b' } });
+            networkBody.nodes[activeVertex].setOptions({ color: VIS_VISITED_NODE_COLOR });
             network.redraw();
         }
     };

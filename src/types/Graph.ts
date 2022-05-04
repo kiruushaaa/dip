@@ -8,6 +8,4 @@ export type Node = {
     edges: Edge[]
 }
 
-export type Graph = {
-    graph: Node[]
-};
+export type Graph = Node[]

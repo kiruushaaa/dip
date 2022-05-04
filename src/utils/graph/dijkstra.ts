@@ -7,7 +7,7 @@ const prepareEdges = (edges: Edge[]): NumericEdge => edges.reduce((obj, { to, we
     return obj;
 }, {} as NumericEdge);
 
-export const prepareDijsktraData = ({ graph }: Graph): GraphObj => graph.reduce((graphObj, { id, edges }) => {
+export const prepareDijsktraData = (graph: Graph): GraphObj => graph.reduce((graphObj, { id, edges }) => {
     graphObj[id] = prepareEdges(edges);
 
     return graphObj;

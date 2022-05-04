@@ -8,13 +8,17 @@ export interface IGraphDataInput {
     callback: Function
 }
 
+export type GraphData = {
+    graph: Graph
+}
+
 export const GraphDataInput = ({ callback }: IGraphDataInput) => {
     const {
         register,
         control,
         handleSubmit,
         getValues,
-    } = useForm<Graph>({ defaultValues: INITIAL_GRAPH });
+    } = useForm<GraphData>({ defaultValues: { graph: INITIAL_GRAPH } });
     const { fields, remove, append } = useFieldArray({ name: 'graph', control });
 
     const appendNode = (): void => {
@@ -38,7 +42,7 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
         }, [] as number[]);
     }
 
-    const onSubmit = (data: Graph): void => callback(data);
+    const onSubmit = ({ graph }: GraphData): void => callback(graph);
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } aria-label="Graph Input">

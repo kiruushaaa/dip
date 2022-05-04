@@ -1,12 +1,12 @@
 import { Control, useFieldArray, UseFormRegister } from "react-hook-form";
 
-import { Graph } from 'types/Graph';
+import { GraphData } from 'components/GraphDataInput';
 
 export interface IEdgeInput {
     nodeIdx: number
     nodes: number[]
-    control: Control<Graph>
-    register: UseFormRegister<Graph>
+    control: Control<GraphData>
+    register: UseFormRegister<GraphData>
 }
 
 export const EdgeInput = ({ nodeIdx, nodes, control, register }: IEdgeInput) => {
