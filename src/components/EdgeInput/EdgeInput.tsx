@@ -1,4 +1,4 @@
-import { Control, useFieldArray, UseFormRegister } from "react-hook-form";
+import { Control, useFieldArray, UseFormRegister } from 'react-hook-form';
 
 import { GraphData } from 'components/GraphDataInput';
 

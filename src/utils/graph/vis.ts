@@ -8,7 +8,7 @@ const prepareVisEdges = (id: number, edges: Edge[]): VisEdge[] => edges.reduce((
 }, [] as VisEdge[]);
 
 export const prepareVisData = (graph: Graph): VisGraph => graph.reduce((visGraph, { id, edges }) => {
-    visGraph.nodes.push({ id, label: String(id)});
+    visGraph.nodes.push({ id, label: String(id) });
     visGraph.edges.push(...prepareVisEdges(id, edges));
 
     return visGraph;

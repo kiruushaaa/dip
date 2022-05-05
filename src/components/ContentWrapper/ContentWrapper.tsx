@@ -4,7 +4,7 @@ import cn from 'classnames';
 import style from './ContentWrapper.module.css';
 
 export interface IWrapper {
-    isCentered?: Boolean
+    isCentered?: boolean
     children: ReactNode
 }
 

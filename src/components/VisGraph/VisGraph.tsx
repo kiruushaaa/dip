@@ -1,11 +1,12 @@
+import { Dispatch, SetStateAction } from 'react';
 import Graph from 'react-graph-vis';
 
 import { VisGraph as VisGraphType } from 'types/VisGraph';
 
 interface IVisGraph {
     graph: VisGraphType
-    setVertex: Function
-    setNetwork: Function
+    setVertex: Dispatch<SetStateAction<number>>
+    setNetwork: Dispatch<SetStateAction<any>>
 }
 
 export const VisGraph = ({ graph, setVertex, setNetwork }: IVisGraph) => {
@@ -26,8 +27,8 @@ export const VisGraph = ({ graph, setVertex, setNetwork }: IVisGraph) => {
 
     const events = {
         selectNode: ({ nodes }: any): void => {
-            const [vertex] = nodes;
-            
+            const [vertex] = nodes as number[];
+
             setVertex(vertex);
         }
     };
@@ -42,4 +43,4 @@ export const VisGraph = ({ graph, setVertex, setNetwork }: IVisGraph) => {
             } }
         />
     );
-}
+};

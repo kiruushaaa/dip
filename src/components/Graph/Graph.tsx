@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { GraphDataInput } from 'components/GraphDataInput';
 import { VisGraph } from 'components/VisGraph';
-import { Graph as GraphType} from 'types/Graph';
+import { Graph as GraphType } from 'types/Graph';
 import { INITIAL_GRAPH } from 'helpers/global';
 import {
     VIS_ACTIVE_NODE_COLOR,

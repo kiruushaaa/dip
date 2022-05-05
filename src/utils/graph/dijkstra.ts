@@ -16,6 +16,6 @@ export const prepareDijsktraData = (graph: Graph): GraphObj => graph.reduce((gra
 export const restorePath = (obj: any, endVertex: number, path: number[] = []): number[] => {
     const to = obj[endVertex];
     const newPath = [Number(endVertex), ...path] as number[];
-  
+
     return to ? restorePath(obj, to, newPath) : newPath;
-}
+};

@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 
 import { EdgeInput } from 'components/EdgeInput';
@@ -5,7 +6,7 @@ import { Graph } from 'types/Graph';
 import { INITIAL_GRAPH, MIN_NODES_AMOUNT } from 'helpers/global';
 
 export interface IGraphDataInput {
-    callback: Function
+    callback: Dispatch<SetStateAction<Graph>>
 }
 
 export type GraphData = {
@@ -23,7 +24,7 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
 
     const appendNode = (): void => {
         const { graph } = getValues();
-        
+
         append({
             id: Math.max(...graph.map(({ id }) => id), 0) + 1,
             edges: []
@@ -40,7 +41,7 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
 
             return nodes;
         }, [] as number[]);
-    }
+    };
 
     const onSubmit = ({ graph }: GraphData): void => callback(graph);
 
@@ -49,17 +50,17 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
             <ul aria-label="Node List">
                 { fields.map(({ id: key }, idx) => {
                     return (
-                        <li key={ key } aria-label={ `Node ${idx}` } style={ {margin: '2rem'} }>
+                        <li key={ key } aria-label={ `Node ${idx}` } style={ { margin: '2rem' } }>
                             <input
                                 type="number"
-                                {...register(`graph.${idx}.id` as const, {
+                                { ...register(`graph.${idx}.id` as const, {
                                     valueAsNumber: true
-                                })}
+                                }) }
                                 readOnly
                             />
                             <button
                                 type="button"
-                                onClick={(): void => remove(idx)}
+                                onClick={ (): void => remove(idx) }
                                 disabled={ fields.length === MIN_NODES_AMOUNT }
                             >
                                 Remove
@@ -82,4 +83,4 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
             </button>
         </form>
     );
-}
+};
