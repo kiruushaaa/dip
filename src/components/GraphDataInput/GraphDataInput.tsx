@@ -52,24 +52,24 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
                     return (
                         <li key={ key } aria-label={ `Node ${idx}` } style={ { margin: '2rem' } }>
                             <input
-                                type="number"
-                                { ...register(`graph.${idx}.id` as const, {
-                                    valueAsNumber: true
-                                }) }
-                                readOnly
+                              type="number"
+                              { ...register(`graph.${idx}.id` as const, {
+                                  valueAsNumber: true
+                              }) }
+                              readOnly
                             />
                             <button
-                                type="button"
-                                onClick={ (): void => remove(idx) }
-                                disabled={ fields.length === MIN_NODES_AMOUNT }
+                              type="button"
+                              onClick={ (): void => remove(idx) }
+                              disabled={ fields.length === MIN_NODES_AMOUNT }
                             >
                                 Remove
                             </button>
                             <EdgeInput
-                                nodeIdx={ idx }
-                                nodes={ getNodes(idx) }
-                                control={ control }
-                                register={ register }
+                              nodeIdx={ idx }
+                              nodes={ getNodes(idx) }
+                              control={ control }
+                              register={ register }
                             />
                         </li>
                     );

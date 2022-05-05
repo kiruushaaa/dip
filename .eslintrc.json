@@ -24,7 +24,14 @@
         "no-trailing-spaces": 1,
         "react/react-in-jsx-scope": "off",
         "react/jsx-curly-spacing": ["warn", "always"],
-        "indent": ["error", 4],
+        "indent": [
+            "warn",
+            4,
+            {
+                "ignoredNodes": ["JSXAttribute"]
+            }
+        ],
+        "react/jsx-indent-props": ["warn", 2],
         "quotes": ["error", "single"],
         "semi": ["error", "always"],
         "eol-last": ["error", "always"],

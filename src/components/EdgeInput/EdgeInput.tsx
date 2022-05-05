@@ -29,8 +29,8 @@ export const EdgeInput = ({ nodeIdx, nodes, control, register }: IEdgeInput) => 
                                 { nodes.map(nodeId => {
                                     return (
                                         <option
-                                            key={ `node_${nodeId}` }
-                                            defaultValue={ nodeId }
+                                          key={ `node_${nodeId}` }
+                                          defaultValue={ nodeId }
                                         >
                                             { nodeId }
                                         </option>
@@ -38,10 +38,12 @@ export const EdgeInput = ({ nodeIdx, nodes, control, register }: IEdgeInput) => 
                                 }) }
                             </select>
                             <input
-                                type="number"
-                                { ...register(`graph.${nodeIdx}.edges.${idx}.weight` as const, { valueAsNumber: true }) }
+                              type="number"
+                              { ...register(`graph.${nodeIdx}.edges.${idx}.weight` as const, { valueAsNumber: true }) }
                             />
-                            <button type="submit" onClick={ (): void => remove(idx) }>
+                            <button
+                              type="submit"
+                              onClick={ (): void => remove(idx) }>
                                 Remove edge
                             </button>
                         </li>
@@ -49,9 +51,9 @@ export const EdgeInput = ({ nodeIdx, nodes, control, register }: IEdgeInput) => 
                 }) }
             </ul>
             <button
-                type="button"
-                onClick={ appendEdge }
-                disabled= { fields.length === nodes.length }
+              type="button"
+              onClick={ appendEdge }
+              disabled= { fields.length === nodes.length }
             >
                 Append edge
             </button>

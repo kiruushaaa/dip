@@ -77,16 +77,16 @@ export const Graph = () => {
         <section aria-label="Graph">
             <GraphDataInput callback={ setGraph } />
             <button
-                type="button"
-                onClick={ showJourney }
-                disabled={ Object.keys(network).length === 0 }
+              type="button"
+              onClick={ showJourney }
+              disabled={ Object.keys(network).length === 0 }
             >
                 Show journey
             </button>
             <VisGraph
-                graph={ prepareVisData(graph) }
-                setVertex={ setVertex }
-                setNetwork={ setNetwork }
+              graph={ prepareVisData(graph) }
+              setVertex={ setVertex }
+              setNetwork={ setNetwork }
             />
         </section>
     );

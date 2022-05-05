@@ -35,12 +35,12 @@ export const VisGraph = ({ graph, setVertex, setNetwork }: IVisGraph) => {
 
     return (
         <Graph
-            graph={ graph }
-            options={ options }
-            events={ events }
-            getNetwork={ (network: any): void=> {
-                setNetwork(network);
-            } }
+          graph={ graph }
+          options={ options }
+          events={ events }
+          getNetwork={ (network: any): void=> {
+              setNetwork(network);
+          } }
         />
     );
 };
