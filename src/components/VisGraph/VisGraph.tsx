@@ -7,11 +7,10 @@ import './vis.css';
 
 interface IVisGraph {
     graph: VisGraphType
-    setVertex: Dispatch<SetStateAction<number>>
     setNetwork: Dispatch<SetStateAction<any>>
 }
 
-export const VisGraph = ({ graph, setVertex, setNetwork }: IVisGraph) => {
+export const VisGraph = ({ graph, setNetwork }: IVisGraph) => {
     const options = {
         physics: {
             enabled: false,
@@ -27,19 +26,10 @@ export const VisGraph = ({ graph, setVertex, setNetwork }: IVisGraph) => {
         height: '550'
     };
 
-    const events = {
-        selectNode: ({ nodes }: any): void => {
-            const [vertex] = nodes as number[];
-
-            setVertex(vertex);
-        }
-    };
-
     return (
         <Graph
           graph={ graph }
           options={ options }
-          events={ events }
           getNetwork={ (network: any): void=> {
               setNetwork(network);
           } }

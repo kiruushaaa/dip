@@ -3,8 +3,10 @@ export const VIS_DEFAULT_NODE_COLOR = {
     border: '#2B7CE9'
 };
 
+export const ACTIVE_COLOR = '#ca7575';
+
 export const VIS_ACTIVE_NODE_COLOR = {
-    background: '#ca7575',
+    background: ACTIVE_COLOR,
     border: '#887171'
 };
 

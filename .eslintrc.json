@@ -21,6 +21,18 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "no-unused-vars": [
+            "warn", {
+                "argsIgnorePattern": "^_",
+                "destructuredArrayIgnorePattern": "^_"
+            }
+        ],
+        "@typescript-eslint/no-unused-vars": [
+            "warn", {
+                "argsIgnorePattern": "^_",
+                "destructuredArrayIgnorePattern": "^_"
+            }
+        ],
         "no-trailing-spaces": 1,
         "react/react-in-jsx-scope": "off",
         "react/jsx-curly-spacing": ["warn", "always"],

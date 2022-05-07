@@ -28,6 +28,6 @@
 }
 
 .btn:disabled  {
-    background-color: lightgray;
-    border-color: gray;
+    cursor: auto;
+    opacity: 0.2;
 }
