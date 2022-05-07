@@ -3,6 +3,8 @@ import Graph from 'react-graph-vis';
 
 import { VisGraph as VisGraphType } from 'types/VisGraph';
 
+import './vis.css';
+
 interface IVisGraph {
     graph: VisGraphType
     setVertex: Dispatch<SetStateAction<number>>
@@ -22,7 +24,7 @@ export const VisGraph = ({ graph, setVertex, setNetwork }: IVisGraph) => {
                 roundness: 0,
             }
         },
-        height: '520px'
+        height: '550'
     };
 
     const events = {

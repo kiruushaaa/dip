@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import cn from 'classnames';
 
 import { GraphDataInput } from 'components/GraphDataInput';
 import { VisGraph } from 'components/VisGraph';
@@ -13,6 +14,9 @@ import { parseValue, timer } from 'utils/global';
 import { prepareVisData } from 'utils/graph/vis';
 import { prepareDijsktraData, restorePath } from 'utils/graph/dijkstra';
 import { dijkstra } from 'algorithms/dijkstra';
+
+import global from 'style/global.module.css';
+import styles from './Graph.module.css';
 
 export const Graph = () => {
     const [graph, setGraph] = useState<GraphType>(INITIAL_GRAPH);
@@ -74,9 +78,10 @@ export const Graph = () => {
     };
 
     return (
-        <section aria-label="Graph">
+        <section className={ styles.wrapper } aria-label="Graph">
             <GraphDataInput callback={ setGraph } />
             <button
+              className={ cn(global.btn, global.btnPrimary) }
               type="button"
               onClick={ showJourney }
               disabled={ Object.keys(network).length === 0 }

@@ -1,0 +1,33 @@
+.btn {
+    cursor: pointer;
+    display: block;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 1em;
+    padding: 0.35em;
+    margin: 0;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.btnRemove {
+    background-color: lightcoral;
+    border-color: brown;
+}
+
+.btnAppend {
+    color: rgb(41, 41, 41);
+    background-color: lightgreen;
+    border-color: green;
+}
+
+.btnPrimary {
+    background-color: cornflowerblue;
+    border-color: blue;
+}
+
+.btn:disabled  {
+    background-color: lightgray;
+    border-color: gray;
+}

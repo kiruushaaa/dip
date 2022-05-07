@@ -1,9 +1,13 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
+import cn from 'classnames';
 
 import { EdgeInput } from 'components/EdgeInput';
 import { Graph } from 'types/Graph';
 import { INITIAL_GRAPH, MIN_NODES_AMOUNT } from 'helpers/global';
+
+import global from 'style/global.module.css';
+import styles from './GraphDataInput.module.css';
 
 export interface IGraphDataInput {
     callback: Dispatch<SetStateAction<Graph>>
@@ -19,7 +23,7 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
         control,
         handleSubmit,
         getValues,
-    } = useForm<GraphData>({ defaultValues: { graph: INITIAL_GRAPH } });
+    } = useForm<GraphData>({ mode: 'onBlur', defaultValues: { graph: INITIAL_GRAPH } });
     const { fields, remove, append } = useFieldArray({ name: 'graph', control });
 
     const appendNode = (): void => {
@@ -46,25 +50,31 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
     const onSubmit = ({ graph }: GraphData): void => callback(graph);
 
     return (
-        <form onSubmit={ handleSubmit(onSubmit) } aria-label="Graph Input">
-            <ul aria-label="Node List">
+        <form className={ styles.form } onSubmit={ handleSubmit(onSubmit) } aria-label="Graph Input">
+            <ul className={ styles.nodeList } aria-label="Node List">
                 { fields.map(({ id: key }, idx) => {
                     return (
-                        <li key={ key } aria-label={ `Node ${idx}` } style={ { margin: '2rem' } }>
-                            <input
-                              type="number"
-                              { ...register(`graph.${idx}.id` as const, {
-                                  valueAsNumber: true
-                              }) }
-                              readOnly
-                            />
-                            <button
-                              type="button"
-                              onClick={ (): void => remove(idx) }
-                              disabled={ fields.length === MIN_NODES_AMOUNT }
-                            >
-                                Remove
-                            </button>
+                        <li className={ styles.nodeWrapper } key={ key } aria-label={ `Node ${idx}` }>
+                            <div className={ styles.nodeInnerWrapper }>
+                                <label>
+                                    Node
+                                    <input
+                                      type="number"
+                                      { ...register(`graph.${idx}.id` as const, {
+                                          valueAsNumber: true
+                                      }) }
+                                      readOnly
+                                    />
+                                </label>
+                                <button
+                                  className={ cn(global.btn, global.btnRemove) }
+                                  type="button"
+                                  onClick={ (): void => remove(idx) }
+                                  disabled={ fields.length === MIN_NODES_AMOUNT }
+                                >
+                                Remove node
+                                </button>
+                            </div>
                             <EdgeInput
                               nodeIdx={ idx }
                               nodes={ getNodes(idx) }
@@ -75,12 +85,20 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
                     );
                 }) }
             </ul>
-            <button type="button" onClick={ appendNode }>
+            <div className={ styles.btnWrapper }>
+                <button
+                  className={ cn(global.btn, global.btnAppend) }
+                  type="button"
+                  onClick={ appendNode }
+                >
                 Append node
-            </button>
-            <button type="submit">
+                </button>
+                <button
+                  className={ cn(global.btn, global.btnPrimary) }
+                  type="submit">
                 Submit graph
-            </button>
+                </button>
+            </div>
         </form>
     );
 };

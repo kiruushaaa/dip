@@ -1,0 +1,45 @@
+.outerWrapper {
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: hwb(0 99% 5%);
+}
+
+.wrapper {
+    list-style: none;
+    display: grid;
+    row-gap: 1rem;
+    padding: 0;
+    margin: 0 0 1rem 0;
+}
+
+.edgeWrapper {
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    padding: 0.6rem;
+    background-color: hwb(0 99% 12%);
+}
+
+.nodeSelect select,
+.weightChooser input {
+    margin-inline: 0.5rem;
+    border: 1px solid gray;
+    border-radius: 1rem;
+    background-color: white;
+    padding: 0.2em;
+    font-size: 1rem;
+}
+
+.weightChooser input {
+    max-width: 5rem;
+    margin-inline-start: 0.5rem;
+    padding-inline: 0.5em;
+}
+
+.btnRemove, .btnAppend {
+    font-size: 0.85rem;
+}
+
+.btnRemove {
+    margin-inline-start: auto;
+}

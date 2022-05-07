@@ -1,8 +1,10 @@
 import { ContentWrapper } from 'components/ContentWrapper';
 import { Graph } from 'components/Graph';
 
+import styles from './App.module.css';
+
 export const App = () => (
-    <main aria-label="Graph">
+    <main className={ styles.main } aria-label="Graph">
         <ContentWrapper>
             <Graph />
         </ContentWrapper>
