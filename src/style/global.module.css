@@ -1,33 +1,82 @@
 .btn {
+    --btn-font-color: var(--light);
+    --btn-background-color: var(--blue);
+    --btn-border-color: var(--blue);
+    --btn-shadow-color: var(--blue-opacity);
+
     cursor: pointer;
-    display: block;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 1em;
-    padding: 0.35em;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
     margin: 0;
-    color: white;
+    color: var(--btn-font-color);
+    background-color: var(--btn-background-color);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--btn-border-color);
+    border-radius: 1em;
+    box-shadow: 0 2px 6px 0 var(--btn-shadow-color);
     font-size: 1rem;
-    font-weight: bold;
 }
 
 .btnRemove {
-    background-color: lightcoral;
-    border-color: brown;
+    --btn-background-color: var(--red);
+    --btn-border-color: var(--red);
+    --btn-shadow-color: var(--red-opacity);
 }
 
 .btnAppend {
-    color: rgb(41, 41, 41);
-    background-color: lightgreen;
-    border-color: green;
+    --btn-background-color: var(--cyan);
+    --btn-border-color: var(--cyan);
+    --btn-shadow-color: var(--cyan-opacity);
+}
+
+.btnAppend::before {
+    content: '+';
 }
 
 .btnPrimary {
-    background-color: cornflowerblue;
-    border-color: blue;
+    --btn-background-color: var(--purple);
+    --btn-border-color: var(--purple);
+    --btn-shadow-color: var(--purple-opacity);
+}
+
+.btnPrimary::before {
+    content: '✓';
+}
+
+.btnDanger {
+    --btn-font-color: var(--white);
+    --btn-background-color: var(--regular-red);
+    --btn-border-color: var(--regular-red);
+    --btn-shadow-color: var(--regular-red-opacity);
+}
+
+.btnRemove::before {
+    content: '×';
+}
+
+.btnDanger::before {
+    content: '⟳';
+}
+
+.btnSuccess {
+    --btn-font-color: var(--white);
+    --btn-background-color: var(--green);
+    --btn-border-color: var(--green);
+    --btn-shadow-color: var(--green-opacity);
+}
+
+.btnSuccess::before {
+    content: '⇆';
+}
+
+.btnPath::before {
+    content: '⇨';
 }
 
 .btn:disabled  {
     cursor: auto;
-    opacity: 0.2;
+    opacity: 0.45;
 }

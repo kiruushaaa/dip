@@ -1,3 +1,39 @@
+:root {
+    /* let it be */
+    --blue: #2c8ef8;
+    --blue-opacity: rgba(44, 142, 248, 50%);
+    --indigo: #727cf5;
+    --purple: #8e58ff;
+    --purple-opacity: rgba(140, 87, 255, 50%);
+    --pink: #ff679b;
+    --pink-opacity: rgba(255, 103, 155, 50%);
+    --red: #fa5c7c;
+    --red-opacity: rgba(250, 92, 124, 50%);
+    --regular-red: #ff0000;
+    --regular-red-opacity: rgba(255, 0, 0, 50%);
+    --orange: #fd7e14;
+    --orange-opacity: rgba(253, 126, 20, 50%);
+    --yellow: #ffbc00;
+    --green: #0acf97;
+    --green-opacity: rgba(10, 207, 151, 50%);
+    --teal: #02a8b5;
+    --teal-opacity: rgba(2, 168, 181, 50%);
+    --cyan: #39afd1;
+    --cyan-opacity: rgba(57, 175, 209, 50%);
+    --white: #fff;
+    --gray: #98a6ad;
+    --gray-opacity: rgba(152, 166, 173, 50%);
+    --gray-dark: #343a40;
+    --primary: #8e58ff;
+    --secondary: #6c757d;
+    --success: #0acf97;
+    --info: #39afd1;
+    --warning: #ffbc00;
+    --danger: #fa5c7c;
+    --light: #eef2f7;
+    --dark: #313a46;
+}
+
 html {
     box-sizing: border-box;
 }
@@ -10,11 +46,13 @@ html {
 
 body {
     margin: 0;
+    font-size: 16px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color: var(--dark);
 }
 
 code {

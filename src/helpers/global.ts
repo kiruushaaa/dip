@@ -1,8 +1,4 @@
-import cn from 'classnames';
-
 import { Graph } from 'types/Graph';
-
-import global from 'style/global.module.css';
 
 export const MIN_NODES_AMOUNT = 3;
 
@@ -17,5 +13,3 @@ export const INITIAL_GRAPH: Graph = [
 ];
 
 export const INITIAL_VERTEX_LIST = [1, 7];
-
-export const NEUTRAL_BUTTON_CLASS_NAME = cn(global.btn, global.btnPrimary);

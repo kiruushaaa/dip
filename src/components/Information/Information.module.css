@@ -1,0 +1,18 @@
+.wrapper {
+    margin-block-end: 3rem;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-block: 0 2rem;
+}
+
+.title span {
+    color: var(--purple);
+}
+
+.btn {
+    display: inline-grid;
+    margin-inline: 0.4rem;
+}

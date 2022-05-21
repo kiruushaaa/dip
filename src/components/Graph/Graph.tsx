@@ -1,10 +1,11 @@
 import { useState, ChangeEvent } from 'react';
+import cn from 'classnames';
 
 import { GraphDataInput } from 'components/GraphDataInput';
 import { VisGraph } from 'components/VisGraph';
+import { Information } from 'components/Information';
 import { Graph as GraphType } from 'types/Graph';
 import {
-    NEUTRAL_BUTTON_CLASS_NAME,
     INITIAL_GRAPH,
     INITIAL_VERTEX_LIST
 } from 'helpers/global';
@@ -20,24 +21,32 @@ import { prepareVisData } from 'utils/graph/vis';
 import { prepareDijsktraData, restorePath } from 'utils/graph/dijkstra';
 import { dijkstra } from 'algorithms/dijkstra';
 
+import global from 'style/global.module.css';
 import styles from './Graph.module.css';
 
 // TODO: this one and all others pieces of shit definitely should be rewritten
 export const Graph = () => {
     const [graph, setGraph] = useState<GraphType>(INITIAL_GRAPH);
-    const [[startVertex, endVertex], setVertexList] = useState<number[]>(INITIAL_VERTEX_LIST);
+    const [vertexList, setVertexList] = useState<number[]>(INITIAL_VERTEX_LIST);
     const [network, setNetwork] = useState<any>({});
     const [executingStatus, updateExecutingStatus] = useState<boolean>(false);
 
+    const [startVertex, endVertex] = vertexList;
     const isButtonDisabled = Object.keys(network).length === 0 || executingStatus;
     const { stepByStep, previous } = dijkstra(prepareDijsktraData(graph), startVertex);
 
-    const onStartVertexChange = ({ target: value }: ChangeEvent<HTMLInputElement>): void => {
-        setVertexList(([_, vertex]) => [Number(value), vertex]);
+    const onStartVertexChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => {
+        setVertexList(([_, end]) => [
+            Number(value),
+            end
+        ]);
     };
 
-    const onEndVertexChange = ({ target: value }: ChangeEvent<HTMLInputElement>): void => {
-        setVertexList(([vertex]) => [vertex, Number(value)]);
+    const onEndVertexChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => {
+        setVertexList(([start]) => [
+            start,
+            Number(value)
+        ]);
     };
 
     const resetCanvas = (): void => {
@@ -59,7 +68,7 @@ export const Graph = () => {
         const additionalEdgeList = [] as number[];
 
         network.unselectAll();
-        resetCanvas();
+        // resetCanvas();
         updateExecutingStatus(true);
 
         for (const [idx, nodeId] of path.entries()) {
@@ -93,7 +102,7 @@ export const Graph = () => {
         resetCanvas();
         updateExecutingStatus(true);
 
-        // drawing meta data under the node identifier
+        // drawing meta data right to the node identifier
         Object.entries(initialDistances).forEach(([key, value]) => {
             networkBody.nodes[key].setOptions({
                 label: `${key} [${parseValue(value)}]`
@@ -141,7 +150,7 @@ export const Graph = () => {
                 network.redraw();
             }
 
-            // marking the node as proceeded
+            // marking the node as visited
             networkBody.nodes[activeVertex].setOptions({ color: VIS_VISITED_NODE_COLOR });
             network.redraw();
         }
@@ -151,28 +160,30 @@ export const Graph = () => {
 
     return (
         <section className={ styles.wrapper } aria-label="Graph">
+            <Information />
             <GraphDataInput callback={ setGraph } />
             <fieldset className={ styles.info }>
+                <legend>Find the shortest path</legend>
                 <label>
-                    Type <b>start</b> vertex:
+                    From node
                     <input
                       type="number"
-                      defaultValue={ startVertex }
+                      value={ startVertex }
                       onChange={ onStartVertexChange }
                     />
                 </label>
                 <label>
-                    Type <b>end</b> vertex:
+                    To node
                     <input
                       type="number"
-                      defaultValue={ endVertex }
+                      value={ endVertex }
                       onChange={ onEndVertexChange }
                     />
                 </label>
             </fieldset>
             <div className={ styles.btnWrapper }>
                 <button
-                  className={ NEUTRAL_BUTTON_CLASS_NAME }
+                  className={ cn(global.btn, global.btnSuccess) }
                   type="button"
                   onClick={ showJourney }
                   disabled={ isButtonDisabled }
@@ -180,20 +191,20 @@ export const Graph = () => {
                     Show journey
                 </button>
                 <button
-                  className={ NEUTRAL_BUTTON_CLASS_NAME }
+                  className={ cn(global.btn, global.btnPath) }
+                  type="button"
+                  onClick={ showPathTo }
+                  disabled={ isButtonDisabled  }
+                >
+                    Show the shortest path
+                </button>
+                <button
+                  className={ cn(global.btn, global.btnDanger, styles.btnDanger) }
                   type="button"
                   onClick={ resetCanvas }
                   disabled={ isButtonDisabled }
                 >
                     Reset a draw
-                </button>
-                <button
-                  className={ NEUTRAL_BUTTON_CLASS_NAME }
-                  type="button"
-                  onClick={ showPathTo }
-                  disabled={ isButtonDisabled }
-                >
-                    Show the shortest path
                 </button>
             </div>
             <VisGraph

@@ -33,7 +33,6 @@ export const EdgeInput = ({ nodeIdx, nodes, control, register }: IEdgeInput) => 
                                 To
                                 <select { ...register(`graph.${nodeIdx}.edges.${idx}.to` as const, {
                                     valueAsNumber: true,
-
                                 }) }>
                                     { nodes.map(nodeId => {
                                         return (
