@@ -10,18 +10,18 @@ export const Information = () => (
         <h1 className={ styles.title }><span>Dijkstra</span>&apos;s algorithm. Visualization step by step</h1>
         <p>
             Алгоритм <span className={ styles.misc }>Дейкстры</span> находит кратчайшие пути от одной из вершин графа до всех остальных.
-            Алгоритм работает только для графов без рёбер отрицательного.
+            Алгоритм работает только для графов без рёбер отрицательного веса.
         </p>
         <p>
-            Граф строится при помощи
+            Граф строится при помощи кнопок
             <span className={ cn(global.btn, global.btnAppend, styles.btn) }>Append node</span>
             и
             <span className={ cn(global.btn, global.btnAppend, styles.btn) }>Append edge</span>,
-             что добавляют вершину и ребро соответственно.
+             которые добавляют вершины и ребра соответственно.
         </p>
         <p>
             <span className={ cn(global.btn, global.btnSuccess, styles.btn) }>Show journey</span>
-            показываеты пошагово, как работает алгоритм, добавляя псевдоребра между вершинами и закрашивая вершины в некоторый цвет
+            показывает пошагово, как работает алгоритм, добавляя псевдоребра между вершинами и закрашивая вершины в некоторый цвет
             (<span style={ { color: ACTIVE_COLOR } }>текущая</span>, <span style={ { color: VIS_VISITED_NODE_COLOR.background } }>посещенная</span>).
         </p>
         <p>
