@@ -13,7 +13,7 @@
 
 .nodeWrapper {
     display: grid;
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: 1fr 4fr;
     column-gap: 1rem;
     padding: 0.6rem;
     background-color: white;
@@ -50,7 +50,26 @@
     margin: 0;
 }
 
-.btnWrapper {
+.nodeAmountChooser {
     display: flex;
-    justify-content: space-evenly;
+    gap: 2vw;
+    margin-block-end: 2rem;
+    align-items: center;
+}
+
+.nodeAmountChooser p {
+    font-weight: 500;
+    margin-block: 0;
+}
+
+.nodeAmountChooser button {
+    gap: 0;
+}
+
+.nodeAmount {
+    min-width: 4rem;
+    font-size: 1.4rem;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 1rem;
 }

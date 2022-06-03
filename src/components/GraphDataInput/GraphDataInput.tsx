@@ -24,7 +24,7 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
         handleSubmit,
         getValues,
     } = useForm<GraphData>({ mode: 'onBlur', defaultValues: { graph: INITIAL_GRAPH } });
-    const { fields, remove, append } = useFieldArray({ name: 'graph', control });
+    const { fields, append, remove } = useFieldArray({ name: 'graph', control });
 
     const appendNode = (): void => {
         const { graph } = getValues();
@@ -32,7 +32,11 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
         append({
             id: Math.max(...graph.map(({ id }) => id), 0) + 1,
             edges: []
-        });
+        }, { shouldFocus: false });
+    };
+
+    const removeNode = (): void => {
+        remove(fields.length - 1);
     };
 
     const getNodes = (indexToRemove: number): number[] => {
@@ -51,6 +55,22 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
 
     return (
         <form className={ styles.form } onSubmit={ handleSubmit(onSubmit) } aria-label="Graph Input">
+
+            <div className={ styles.nodeAmountChooser }>
+                <p>Amount of nodes:</p>
+                <button
+                  className={ cn(global.btn, global.btnAppend) }
+                  type="button"
+                  onClick={ appendNode }
+                />
+                <span className={ styles.nodeAmount } >{fields.length}</span>
+                <button
+                  className={ cn(global.btn, global.btnRemove) }
+                  type="button"
+                  onClick={ removeNode }
+                  disabled={ fields.length === MIN_NODES_AMOUNT }
+                />
+            </div>
             <ul className={ styles.nodeList } aria-label="Node List">
                 { fields.map(({ id: key }, idx) => {
                     return (
@@ -66,14 +86,6 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
                                       readOnly
                                     />
                                 </label>
-                                <button
-                                  className={ cn(global.btn, global.btnRemove) }
-                                  type="button"
-                                  onClick={ (): void => remove(idx) }
-                                  disabled={ fields.length === MIN_NODES_AMOUNT }
-                                >
-                                Remove node
-                                </button>
                             </div>
                             <EdgeInput
                               nodeIdx={ idx }
@@ -85,20 +97,11 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
                     );
                 }) }
             </ul>
-            <div className={ styles.btnWrapper }>
-                <button
-                  className={ cn(global.btn, global.btnAppend) }
-                  type="button"
-                  onClick={ appendNode }
-                >
-                Append node
-                </button>
-                <button
-                  className={ cn(global.btn, global.btnPrimary) }
-                  type="submit">
-                Submit graph
-                </button>
-            </div>
+            <button
+              className={ cn(global.btn, global.btnPrimary) }
+              type="submit">
+            Submit graph
+            </button>
         </form>
     );
 };

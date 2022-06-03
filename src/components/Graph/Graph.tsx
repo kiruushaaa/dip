@@ -3,7 +3,6 @@ import cn from 'classnames';
 
 import { GraphDataInput } from 'components/GraphDataInput';
 import { VisGraph } from 'components/VisGraph';
-import { Information } from 'components/Information';
 import { Graph as GraphType } from 'types/Graph';
 import {
     INITIAL_GRAPH,
@@ -16,7 +15,7 @@ import {
     VIS_EDGE_PATH_CONFIG,
     VIS_DEFAULT_NODE_COLOR
 } from 'helpers/vis';
-import { parseValue, timer } from 'utils/global';
+import { parseValue, wait } from 'utils/global';
 import { prepareVisData } from 'utils/graph/vis';
 import { prepareDijsktraData, restorePath } from 'utils/graph/dijkstra';
 import { dijkstra } from 'algorithms/dijkstra';
@@ -24,29 +23,44 @@ import { dijkstra } from 'algorithms/dijkstra';
 import global from 'style/global.module.css';
 import styles from './Graph.module.css';
 
-// TODO: this one and all others pieces of shit definitely should be rewritten
 export const Graph = () => {
     const [graph, setGraph] = useState<GraphType>(INITIAL_GRAPH);
     const [vertexList, setVertexList] = useState<number[]>(INITIAL_VERTEX_LIST);
     const [network, setNetwork] = useState<any>({});
     const [executingStatus, updateExecutingStatus] = useState<boolean>(false);
+    const [nextStep, setNextStep] = useState<() => void>();
+    const [isAutoMode, setAutoMode] = useState(true);
 
     const [startVertex, endVertex] = vertexList;
     const isButtonDisabled = Object.keys(network).length === 0 || executingStatus;
     const { stepByStep, previous } = dijkstra(prepareDijsktraData(graph), startVertex);
 
-    const onStartVertexChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => {
-        setVertexList(([_, end]) => [
-            Number(value),
-            end
-        ]);
+    const vertexChangeHandler = (isStartHandler = false) => ({ target: { value } }: ChangeEvent<HTMLSelectElement>): void => {
+        resetCanvas();
+
+        setVertexList(([start, end]) => {
+            const newVertex = Number(value);
+
+            return isStartHandler ? [newVertex, end] : [start, newVertex];
+        });
     };
 
-    const onEndVertexChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => {
-        setVertexList(([start]) => [
-            start,
-            Number(value)
-        ]);
+    const onAutoModeChange = (): void => {
+        setAutoMode((isAutoMode) => !isAutoMode);
+    };
+
+    const flatPromise = () => new Promise<void>((resolve) => {
+        setNextStep(() => () => resolve());
+    });
+
+    const waitForNextStep = async (time: number): Promise<void> => {
+        const promises = [flatPromise()];
+
+        if (isAutoMode) {
+            promises.push(wait(time));
+        }
+
+        await Promise.race(promises);
     };
 
     const resetCanvas = (): void => {
@@ -65,10 +79,9 @@ export const Graph = () => {
     const showPathTo = async (): Promise<void> => {
         const networkBody = network.body;
         const path = restorePath(previous, endVertex);
-        const additionalEdgeList = [] as number[];
+        const pseudoEdges = [] as number[];
 
         network.unselectAll();
-        // resetCanvas();
         updateExecutingStatus(true);
 
         for (const [idx, nodeId] of path.entries()) {
@@ -83,15 +96,16 @@ export const Graph = () => {
                 width: 4
             });
 
-            additionalEdgeList.push(edge);
+            pseudoEdges.push(edge);
             network.redraw();
-            await timer(2000);
+            await wait(2000);
         }
 
-        await timer(5000);
-
-        networkBody.data.edges.remove(additionalEdgeList);
         updateExecutingStatus(false);
+
+        await wait(6000);
+
+        networkBody.data.edges.remove(pseudoEdges);
     };
 
     const showJourney = async (): Promise<void> => {
@@ -110,7 +124,7 @@ export const Graph = () => {
             network.redraw();
         });
 
-        await timer(3000);
+        await waitForNextStep(3000);
 
         for (const [stepIndex, { activeVertex, distances }] of journey.entries()) {
             // coloring active node
@@ -119,7 +133,7 @@ export const Graph = () => {
             });
             network.redraw();
 
-            await timer(2000);
+            await waitForNextStep(2000);
 
             const { edges = [] } = graph.find(({ id }) => id === activeVertex) ?? {};
 
@@ -136,7 +150,7 @@ export const Graph = () => {
                 });
                 network.redraw();
 
-                await timer(1000);
+                await waitForNextStep(1500);
 
                 // update meta for the node
                 networkBody.nodes[to].setOptions({
@@ -144,7 +158,7 @@ export const Graph = () => {
                 });
                 network.redraw();
 
-                await timer(3000);
+                await waitForNextStep(3000);
 
                 networkBody.data.edges.remove(edge);
                 network.redraw();
@@ -160,36 +174,74 @@ export const Graph = () => {
 
     return (
         <section className={ styles.wrapper } aria-label="Graph">
-            <Information />
             <GraphDataInput callback={ setGraph } />
             <fieldset className={ styles.info }>
                 <legend>Find the shortest path</legend>
                 <label>
                     From node
-                    <input
-                      type="number"
-                      value={ startVertex }
-                      onChange={ onStartVertexChange }
-                    />
+                    <select defaultValue={ startVertex } onChange={ vertexChangeHandler(true) }>
+                        { graph.map(({ id }) => {
+                            return (
+                                <option
+                                  key={ `start_node_${id}` }
+                                  value={ id }
+                                  disabled={ id === endVertex }
+                                >
+                                    node { id }
+                                </option>
+                            );
+                        }) }
+                    </select>
                 </label>
                 <label>
                     To node
-                    <input
-                      type="number"
-                      value={ endVertex }
-                      onChange={ onEndVertexChange }
-                    />
+                    <select defaultValue={ endVertex } onChange={ vertexChangeHandler() }>
+                        { graph.map(({ id }) => {
+                            return (
+                                <option
+                                  key={ `end_node_${id}` }
+                                  value={ id }
+                                  disabled={ id === startVertex }
+                                >
+                                    node { id }
+                                </option>
+                            );
+                        }) }
+                    </select>
                 </label>
             </fieldset>
+            <label className={ cn(styles.journeyCheckbox) }>
+                <input
+                  type="checkbox"
+                  onChange={ onAutoModeChange }
+                  checked={ !isAutoMode }
+                  disabled={ executingStatus }
+                />
+                Show journey click-by-click
+            </label>
             <div className={ styles.btnWrapper }>
-                <button
-                  className={ cn(global.btn, global.btnSuccess) }
-                  type="button"
-                  onClick={ showJourney }
-                  disabled={ isButtonDisabled }
-                >
-                    Show journey
-                </button>
+                {
+                    executingStatus && !isAutoMode
+                        ? (
+                            <button
+                              className={ cn(global.btn, global.btnSuccess, styles.btnNext) }
+                              type="button"
+                              onClick={ nextStep }
+                            >
+                                Next step
+                            </button>
+                        )
+                        : (
+                            <button
+                              className={ cn(global.btn, global.btnSuccess) }
+                              type="button"
+                              onClick={ showJourney }
+                              disabled={ isButtonDisabled }
+                            >
+                                Show journey
+                            </button>
+                        )
+                }
                 <button
                   className={ cn(global.btn, global.btnPath) }
                   type="button"

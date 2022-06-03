@@ -14,7 +14,7 @@ export const Information = () => (
         </p>
         <p>
             Граф строится при помощи кнопок
-            <span className={ cn(global.btn, global.btnAppend, styles.btn) }>Append node</span>
+            <span style={ { gap: 0 } } className={ cn(global.btn, global.btnAppend, styles.btn) } />
             и
             <span className={ cn(global.btn, global.btnAppend, styles.btn) }>Append edge</span>,
              которые добавляют вершины и ребра соответственно.
