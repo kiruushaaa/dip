@@ -16,16 +16,6 @@
     grid-column: -1;
 }
 
-.btnNext {
-    --btn-background-color: var(--orange);
-    --btn-border-color: var(--orange);
-    --btn-shadow-color: var(--orange-opacity);
-}
-
-.btnNext::before {
-    content: '✔';
-}
-
 .info {
     display: flex;
     flex-direction: column;

@@ -76,6 +76,16 @@
     content: '⇨';
 }
 
+.btnNext {
+    --btn-background-color: var(--orange);
+    --btn-border-color: var(--orange);
+    --btn-shadow-color: var(--orange-opacity);
+}
+
+.btnNext::before {
+    content: '✔';
+}
+
 .btn:disabled  {
     cursor: auto;
     opacity: 0.45;

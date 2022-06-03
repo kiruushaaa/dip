@@ -6,6 +6,14 @@
     margin-block-start: 0;
 }
 
+.wrapper ul {
+    padding-inline-start: 1.1rem;
+}
+
+.wrapper ul li:not(:last-child) {
+    margin-block-end: 1rem;
+}
+
 .title {
     font-size: 2.5rem;
     font-weight: 500;

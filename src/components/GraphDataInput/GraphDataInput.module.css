@@ -3,6 +3,10 @@
     padding: 0 6rem;
 }
 
+.btnRemove::before {
+    content: '−';
+}
+
 .nodeList {
     display: grid;
     row-gap: 0.5rem;

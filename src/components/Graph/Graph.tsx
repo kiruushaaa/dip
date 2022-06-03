@@ -224,7 +224,7 @@ export const Graph = () => {
                     executingStatus && !isAutoMode
                         ? (
                             <button
-                              className={ cn(global.btn, global.btnSuccess, styles.btnNext) }
+                              className={ cn(global.btn, global.btnNext) }
                               type="button"
                               onClick={ nextStep }
                             >
