@@ -55,10 +55,11 @@
 }
 
 .nodeAmountChooser {
+    max-width: 22rem;
     display: flex;
-    gap: 2vw;
     margin-block-end: 2rem;
     align-items: center;
+    justify-content: space-between;
 }
 
 .nodeAmountChooser button {

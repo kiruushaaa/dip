@@ -1,7 +1,7 @@
 .outerWrapper {
     padding: 1rem;
     border-radius: 1rem;
-    background-color: hwb(0 99% 5%);
+    background-color: #f3f3f3;
 }
 
 .wrapper {
@@ -17,7 +17,7 @@
     align-items: center;
     border-radius: 1rem;
     padding: 0.6rem;
-    background-color: hwb(0 99% 12%);
+    background-color: #e3e3e3;
 }
 
 .nodeSelect select,
