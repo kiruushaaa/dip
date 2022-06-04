@@ -58,16 +58,16 @@ export const GraphDataInput = ({ callback }: IGraphDataInput) => {
             <div className={ styles.nodeAmountChooser }>
                 <p>Amount of nodes:</p>
                 <button
-                  className={ cn(global.btn, global.btnAppend) }
-                  type="button"
-                  onClick={ appendNode }
-                />
-                <span className={ styles.nodeAmount }>{fields.length}</span>
-                <button
                   className={ cn(global.btn, global.btnRemove, styles.btnRemove) }
                   type="button"
                   onClick={ removeNode }
                   disabled={ fields.length === MIN_NODES_AMOUNT }
+                />
+                <span className={ styles.nodeAmount }>{fields.length}</span>
+                <button
+                  className={ cn(global.btn, global.btnAppend) }
+                  type="button"
+                  onClick={ appendNode }
                 />
             </div>
             <ul className={ styles.nodeList } aria-label="Node List">
