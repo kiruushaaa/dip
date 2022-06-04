@@ -10,6 +10,10 @@
     padding-inline-start: 1.1rem;
 }
 
+.wrapper li > ul {
+    margin-block-start: 1rem;
+}
+
 .wrapper ul li:not(:last-child) {
     margin-block-end: 1rem;
 }
@@ -27,5 +31,6 @@
 
 .btn {
     display: inline-grid;
+    min-width: unset;
     margin-inline: 0.4rem;
 }

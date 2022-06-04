@@ -5,6 +5,8 @@
     --btn-shadow-color: var(--blue-opacity);
 
     cursor: pointer;
+    width: max-content;
+    min-width: 10rem;
     display: grid;
     grid-template-columns: min-content 1fr;
     gap: 0.5rem;
@@ -20,13 +22,24 @@
     font-size: 1rem;
 }
 
-.btnRemove {
+.btnRemove,
+.btnStop {
     --btn-background-color: var(--red);
     --btn-border-color: var(--red);
     --btn-shadow-color: var(--red-opacity);
 }
 
-.btnAppend {
+.btnRemove::before {
+    content: '×';
+}
+
+.btnStop::before {
+    content: '=';
+    transform: rotate(90deg);
+}
+
+.btnAppend,
+.btnNext {
     --btn-background-color: var(--cyan);
     --btn-border-color: var(--cyan);
     --btn-shadow-color: var(--cyan-opacity);
@@ -34,6 +47,11 @@
 
 .btnAppend::before {
     content: '+';
+}
+
+.btnNext::before {
+    content: '△';
+    transform: rotate(90deg);
 }
 
 .btnPrimary {
@@ -53,10 +71,6 @@
     --btn-shadow-color: var(--regular-red-opacity);
 }
 
-.btnRemove::before {
-    content: '×';
-}
-
 .btnDanger::before {
     content: '⟳';
 }
@@ -74,16 +88,6 @@
 
 .btnPath::before {
     content: '⇨';
-}
-
-.btnNext {
-    --btn-background-color: var(--orange);
-    --btn-border-color: var(--orange);
-    --btn-shadow-color: var(--orange-opacity);
-}
-
-.btnNext::before {
-    content: '✔';
 }
 
 .btn:disabled  {

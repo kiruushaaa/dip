@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import cn from 'classnames';
 
 import { GraphDataInput } from 'components/GraphDataInput';
@@ -29,7 +29,10 @@ export const Graph = () => {
     const [network, setNetwork] = useState<any>({});
     const [executingStatus, updateExecutingStatus] = useState<boolean>(false);
     const [nextStep, setNextStep] = useState<() => void>();
+    const [stopJourney, setStopJourney] = useState<() => void>();
     const [isAutoMode, setAutoMode] = useState(true);
+
+    const pseudoEdgeRef = useRef<string>('');
 
     const [startVertex, endVertex] = vertexList;
     const isButtonDisabled = Object.keys(network).length === 0 || executingStatus;
@@ -49,8 +52,9 @@ export const Graph = () => {
         setAutoMode((isAutoMode) => !isAutoMode);
     };
 
-    const flatPromise = () => new Promise<void>((resolve) => {
-        setNextStep(() => () => resolve());
+    const flatPromise = () => new Promise<void>((resolve, reject) => {
+        setNextStep(() => resolve);
+        setStopJourney(() => reject);
     });
 
     const waitForNextStep = async (time: number): Promise<void> => {
@@ -108,21 +112,25 @@ export const Graph = () => {
         networkBody.data.edges.remove(pseudoEdges);
     };
 
+    const savePseudoEdge = (edge: string): void => {
+        pseudoEdgeRef.current = edge;
+    };
+
+    const removePseudoEdgeFromCanvas = (): void => {
+        network.body.data.edges.remove(pseudoEdgeRef.current);
+    };
+
     const showJourney = async (): Promise<void> => {
         const [{ distances: initialDistances }, ...journey] = stepByStep;
         const networkBody = network.body;
-
-        network.unselectAll();
-        resetCanvas();
-        updateExecutingStatus(true);
 
         // drawing meta data right to the node identifier
         Object.entries(initialDistances).forEach(([key, value]) => {
             networkBody.nodes[key].setOptions({
                 label: `${key} [${parseValue(value)}]`
             });
-            network.redraw();
         });
+        network.redraw();
 
         await waitForNextStep(3000);
 
@@ -137,7 +145,7 @@ export const Graph = () => {
 
             const { edges = [] } = graph.find(({ id }) => id === activeVertex) ?? {};
 
-            // adding an edge representing an iteration
+            // adding a pseudo edge representing an iteration
             for (const { to, weight } of edges) {
                 const currentWeight = stepByStep[stepIndex].distances[to];
                 const potentialWeight = distances[activeVertex] + weight;
@@ -148,6 +156,7 @@ export const Graph = () => {
                     to,
                     label: `${distances[activeVertex]} + ${weight} = ${potentialWeight} < ${parseValue(currentWeight)} ?`
                 });
+                savePseudoEdge(edge);
                 network.redraw();
 
                 await waitForNextStep(1500);
@@ -160,7 +169,7 @@ export const Graph = () => {
 
                 await waitForNextStep(3000);
 
-                networkBody.data.edges.remove(edge);
+                removePseudoEdgeFromCanvas();
                 network.redraw();
             }
 
@@ -168,8 +177,20 @@ export const Graph = () => {
             networkBody.nodes[activeVertex].setOptions({ color: VIS_VISITED_NODE_COLOR });
             network.redraw();
         }
+    };
 
-        updateExecutingStatus(false);
+    const startJourney = async (): Promise<void> => {
+        try {
+            updateExecutingStatus(true);
+            network.unselectAll();
+            resetCanvas();
+
+            await showJourney();
+        } catch (_) {
+            removePseudoEdgeFromCanvas();
+        } finally {
+            updateExecutingStatus(false);
+        }
     };
 
     return (
@@ -221,21 +242,34 @@ export const Graph = () => {
             </label>
             <div className={ styles.btnWrapper }>
                 {
-                    executingStatus && !isAutoMode
+                    executingStatus
                         ? (
-                            <button
-                              className={ cn(global.btn, global.btnNext) }
-                              type="button"
-                              onClick={ nextStep }
-                            >
-                                Next step
-                            </button>
+                            <>
+                                {
+                                    !isAutoMode && (
+                                        <button
+                                          className={ cn(global.btn, global.btnNext) }
+                                          type="button"
+                                          onClick={ nextStep }
+                                        >
+                                            Next step
+                                        </button>
+                                    )
+                                }
+                                <button
+                                  className={ cn(global.btn, global.btnStop) }
+                                  type="button"
+                                  onClick={ stopJourney }
+                                >
+                                    Stop journey
+                                </button>
+                            </>
                         )
                         : (
                             <button
                               className={ cn(global.btn, global.btnSuccess) }
                               type="button"
-                              onClick={ showJourney }
+                              onClick={ startJourney }
                               disabled={ isButtonDisabled }
                             >
                                 Show journey
